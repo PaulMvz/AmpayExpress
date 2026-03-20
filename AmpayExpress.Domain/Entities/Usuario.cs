@@ -13,6 +13,7 @@ namespace AmpayExpress.Domain.Entities
 		public string Apellido { get; set; } = string.Empty;
 		public string Email { get; set; } = string.Empty;
 		public string PasswordHash { get; set; } = string.Empty;
+		public string? Telefono { get; set; }
 		public int RolId { get; set; } // 1:Cliente, 2:Repartidor, 3:Comercio, 4:Admin
 	}
 }
