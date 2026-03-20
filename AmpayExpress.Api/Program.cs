@@ -1,9 +1,21 @@
+using AmpayExpress.Application.Interfaces;
+using AmpayExpress.Application.Services;
+using AmpayExpress.Domain.Interfaces;
+using AmpayExpress.Infrastructure.Repository;
+
 using AmpayExpress.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// 1. Configurar la Base de Datos (Asegúrate que coincida con tu appsettings.json)
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// 2. Registrar el Repositorio (Infraestructura)
+builder.Services.AddScoped<IComercioRepository, ComercioRepository>();
+// 3. Registrar el Servicio (Aplicación)
+builder.Services.AddScoped<IComercioService, ComercioService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

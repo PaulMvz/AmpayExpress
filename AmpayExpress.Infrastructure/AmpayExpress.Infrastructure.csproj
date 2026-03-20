@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AmpayExpress.Application\AmpayExpress.Application.csproj" />
+    <ProjectReference Include="..\AmpayExpress.Domain\AmpayExpress.Domain.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
