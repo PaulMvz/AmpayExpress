@@ -17,7 +17,7 @@ namespace AmpayExpress.Infrastructure.Persistence
 
 		// Add DbSet properties for your entities here
 		public DbSet<Usuario> Usuarios { get; set; } = null!;
-		public DbSet<Categoria> Categorias { get; set; } = null!;
+		public DbSet<Categoria> Categoria { get; set; } = null!;
 		public DbSet<Comercio> Comercio { get; set; } = null!;
 		public DbSet<Producto> Producto { get; set; } = null!;
 		public DbSet<Pedido> Pedidos { get; set; } = null!;

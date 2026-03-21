@@ -11,5 +11,6 @@ namespace AmpayExpress.Domain.Interfaces
 	{
 		// El contrato: "Alguien me dará una lista de productos"
 		Task<IEnumerable<Producto>> ObtenerTodosAsync();
+		Task<Producto> CrearAsync(Producto producto);
 	}
 }

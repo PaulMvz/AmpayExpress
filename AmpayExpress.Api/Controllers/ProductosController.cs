@@ -1,4 +1,5 @@
-﻿using AmpayExpress.Application.Interfaces;
+﻿using AmpayExpress.Application.DTOs;
+using AmpayExpress.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmpayExpress.Api.Controllers
@@ -17,6 +18,16 @@ namespace AmpayExpress.Api.Controllers
 		{
 			var productos = await _productoService.ObtenerTodosLosProductosAsync();
 			return Ok(productos);
+		}
+		[HttpPost]
+		public async Task<ActionResult<ProductoDto>> Post([FromBody] ProductoCreateDto dto)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			var nuevoProducto = await _productoService.CrearProductoAsync(dto);
+			return CreatedAtAction(nameof(GetAll), new { id = nuevoProducto.Id }, nuevoProducto);
 		}
 	}
 }

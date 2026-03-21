@@ -28,5 +28,9 @@ namespace AmpayExpress.Infrastructure.Repository
 			await _context.SaveChangesAsync();
 			return comercio;
 		}
+		public async Task<Comercio?> ObtenerPorIdAsync(int id)
+		{
+			return await _context.Comercio.FindAsync(id);
+		}
 	}
 }

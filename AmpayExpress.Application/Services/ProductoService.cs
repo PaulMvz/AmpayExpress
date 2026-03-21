@@ -13,10 +13,12 @@ namespace AmpayExpress.Application.Services
 	public class ProductoService : IProductoService
 	{
 		private readonly IProductoRepository _repository;
-		
-		public ProductoService(IProductoRepository repository)
+		private readonly IComercioRepository _comercioRepository;
+
+		public ProductoService(IProductoRepository repository, IComercioRepository comercioRepository)
 		{
 			_repository = repository;
+			_comercioRepository = comercioRepository;
 		}
 
 		public async Task<IEnumerable<ProductoDto>> ObtenerTodosLosProductosAsync()
@@ -31,6 +33,33 @@ namespace AmpayExpress.Application.Services
 				Stock = p.Stock,
 				ComercioNombre = p.Comercio != null ? p.Comercio.NombreComercial : "Desconocido"
 			});
+		}
+		public async Task<ProductoDto> CrearProductoAsync(ProductoCreateDto dto)
+		{
+			// Validar que el comercio existe
+			var comercio = await _comercioRepository.ObtenerPorIdAsync(dto.ComercioId);
+			if (comercio == null)
+			{
+				throw new Exception("El comercio especificado no existe.");
+			}
+			var nuevoProducto = new Domain.Entities.Producto
+			{
+				Nombre = dto.Nombre,
+				Descripcion = dto.Descripcion,
+				Precio = dto.Precio,
+				Stock = dto.Stock,
+				ComercioId = dto.ComercioId
+			};
+			var productoCreado = await _repository.CrearAsync(nuevoProducto);
+			return new ProductoDto
+			{
+				Id = productoCreado.Id,
+				Nombre = productoCreado.Nombre,
+				Descripcion = productoCreado.Descripcion,
+				Precio = productoCreado.Precio,
+				Stock = productoCreado.Stock,
+				ComercioNombre = comercio.NombreComercial
+			};
 		}
 	}
 }

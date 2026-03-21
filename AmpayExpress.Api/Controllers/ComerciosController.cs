@@ -29,5 +29,5 @@ namespace AmpayExpress.Api.Controllers
 			//Cambiamos nameof(Get) por "GetAll" o el nombre del método que corresponda para obtener el comercio recién creado
 			return CreatedAtAction(nameof(GetAll), new { id = resultado.Id }, resultado);
 		}
-	}
+	} 
 }

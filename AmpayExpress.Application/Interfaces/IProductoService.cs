@@ -11,5 +11,6 @@ namespace AmpayExpress.Application.Interfaces
 	{
 		//Una tarea asíncrona que devuelve una lista de nuestros DTOs
 		Task<IEnumerable<ProductoDto>> ObtenerTodosLosProductosAsync();
+		Task<ProductoDto> CrearProductoAsync(ProductoCreateDto dto);
 	}
 }
