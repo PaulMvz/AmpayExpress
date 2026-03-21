@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 //Asumimos que aqui inyectaremos tu DbContext de Infrastructure
 using AmpayExpress.Domain.Interfaces;
 using AmpayExpress.Domain.Entities;
+using System.Runtime.CompilerServices;
 
 
 namespace AmpayExpress.Application.Services
@@ -17,10 +18,13 @@ namespace AmpayExpress.Application.Services
 	public class ComercioService : IComercioService
 	{
 		private readonly IComercioRepository _repository;
-		public ComercioService(IComercioRepository repository)
+		private readonly ICategoriaRepository _categoriaRepository;
+		public ComercioService(IComercioRepository repository, ICategoriaRepository categoriaRepository)
 		{
 			_repository = repository;
+			_categoriaRepository = categoriaRepository;
 		}
+
 
 		public async Task<IEnumerable<ComercioDto>> ObtenerTodosLosComerciosAsync()
 		{
@@ -36,7 +40,17 @@ namespace AmpayExpress.Application.Services
 		}
 		public async Task<ComercioDto> CrearComercioAsync(ComercioCreateDto dto)
 		{
-			// 1. Convertimos el DTO a una entidad de dominio
+			// Seguridad : Validar que la categoría realmente existe en la DB
+			// Asumiendo que tienes un repositorio de categorías inyectado como _categoriaRepository
+			var categoria = await _categoriaRepository.ObtenerPorIdAsync(dto.CategoriaId);
+			if (categoria == null)
+			{
+				// Si no existe, lanzamos una excepción o manejamos el error
+				// Esto evita que se intente crear un registro "huérfano" o erróneo
+				throw new Exception("La categoría especificada no existe.");
+			}
+
+			// Mapeo de DTO a entidad
 			var nuevocomercio = new Comercio
 			{
 				NombreComercial = dto.NombreComercial,
@@ -46,10 +60,10 @@ namespace AmpayExpress.Application.Services
 				CategoriaId = dto.CategoriaId
 			};
 
-			// 2. Guardamos en la base de datos
+			// Persistencia: Guardamos el nuevo comercio en la base de datos
 			var comercioCreado = await _repository.CrearAsync(nuevocomercio);
 
-			// 3. Retornamos el DTO de respuesta (para confirmar el ID generado)
+			// Mapeo de Salida con el nombre de categoría
 			return new ComercioDto
 			{
 				Id = comercioCreado.Id,
@@ -58,7 +72,7 @@ namespace AmpayExpress.Application.Services
 				Direccion = comercioCreado.Direccion,
 				EstadoAbierto = comercioCreado.EstadoAbierto,
 				//Aqui usamos el nombre, no el Id, para que coincida con tu DTO actual
-				CategoriaNombre = "Asignada"
+				CategoriaNombre = categoria.Nombre
 			};
 
 		}
