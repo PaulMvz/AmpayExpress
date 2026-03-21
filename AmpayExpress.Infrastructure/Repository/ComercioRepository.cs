@@ -22,5 +22,11 @@ namespace AmpayExpress.Infrastructure.Repository
 		{
 			return await _context.Comercio.Include(c => c.Categoria).ToListAsync();
 		}
+		public async Task<Comercio> CrearAsync(Comercio comercio)
+		{
+			await _context.Comercio.AddAsync(comercio);
+			await _context.SaveChangesAsync();
+			return comercio;
+		}
 	}
 }

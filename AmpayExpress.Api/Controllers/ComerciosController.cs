@@ -1,4 +1,5 @@
-﻿using AmpayExpress.Application.Interfaces;
+﻿using AmpayExpress.Application.DTOs;
+using AmpayExpress.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmpayExpress.Api.Controllers
@@ -18,6 +19,15 @@ namespace AmpayExpress.Api.Controllers
 		{
 			var comercios = await _comercioService.ObtenerTodosLosComerciosAsync();
 			return Ok(comercios);
+		}
+		[HttpPost]
+		public async Task<ActionResult<ComercioDto>> Post([FromBody] ComercioCreateDto dto)
+		{
+			if (!ModelState.IsValid) return BadRequest(ModelState); //Si el RUC no tiene 11 dígitos, se devuelve un error de validación
+
+			var resultado = await _comercioService.CrearComercioAsync(dto);
+			//Cambiamos nameof(Get) por "GetAll" o el nombre del método que corresponda para obtener el comercio recién creado
+			return CreatedAtAction(nameof(GetAll), new { id = resultado.Id }, resultado);
 		}
 	}
 }
