@@ -19,7 +19,7 @@ namespace AmpayExpress.Infrastructure.Persistence
 		public DbSet<Usuario> Usuarios { get; set; } = null!;
 		public DbSet<Categoria> Categorias { get; set; } = null!;
 		public DbSet<Comercio> Comercio { get; set; } = null!;
-		public DbSet<Producto> Productos { get; set; } = null!;
+		public DbSet<Producto> Producto { get; set; } = null!;
 		public DbSet<Pedido> Pedidos { get; set; } = null!;
 		public DbSet<DetallePedido> DetallesPedidos { get; set; } = null!;
 

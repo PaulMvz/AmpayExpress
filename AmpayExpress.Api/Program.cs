@@ -14,8 +14,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // 2. Registrar el Repositorio (Infraestructura)
 builder.Services.AddScoped<IComercioRepository, ComercioRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 // 3. Registrar el Servicio (Aplicación)
 builder.Services.AddScoped<IComercioService, ComercioService>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

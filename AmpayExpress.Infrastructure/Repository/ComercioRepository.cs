@@ -12,6 +12,7 @@ namespace AmpayExpress.Infrastructure.Repository
 {
 	public class ComercioRepository : IComercioRepository
 	{
+		// En este repositorio, inyectamos el ApplicationDbContext para acceder a la base de datos.
 		private readonly ApplicationDbContext _context;
 		public ComercioRepository(ApplicationDbContext context)
 		{
