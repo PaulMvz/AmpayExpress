@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AmpayExpress.Api.Controllers
 {
-	[Authorize] // Esto bloquea el acceso a esta ruta para usuarios no autenticados. Asegúrate de configurar la autenticación en tu aplicación.
+	
 	[ApiController]
 	[Route("api/[controller]")]
 	public class ComerciosController : ControllerBase
@@ -16,12 +16,14 @@ namespace AmpayExpress.Api.Controllers
 		{
 			_comercioService = comercioService;
 		}
+		[Authorize]
 		[HttpGet]
 		public async Task<IActionResult> GetAll()
 		{
 			var comercios = await _comercioService.ObtenerTodosLosComerciosAsync();
 			return Ok(comercios);
 		}
+		[Authorize(Roles = "Administrador")]
 		[HttpPost]
 		public async Task<ActionResult<ComercioDto>> Post([FromBody] ComercioCreateDto dto)
 		{
