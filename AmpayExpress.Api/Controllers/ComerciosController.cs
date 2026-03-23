@@ -1,9 +1,11 @@
 ﻿using AmpayExpress.Application.DTOs;
 using AmpayExpress.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmpayExpress.Api.Controllers
 {
+	[Authorize] // Esto bloquea el acceso a esta ruta para usuarios no autenticados. Asegúrate de configurar la autenticación en tu aplicación.
 	[ApiController]
 	[Route("api/[controller]")]
 	public class ComerciosController : ControllerBase

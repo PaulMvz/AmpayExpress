@@ -1,9 +1,11 @@
 ﻿using AmpayExpress.Application.DTOs;
 using AmpayExpress.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AmpayExpress.Api.Controllers
 {
+	[Authorize]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class ProductosController : ControllerBase
